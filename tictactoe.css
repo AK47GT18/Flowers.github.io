@@ -3,7 +3,11 @@
 }
 
 body {
-    background-color: var(--dark-color);
+    background-color: #FFEDD5; /* Soft peach */
+
+
+
+
     margin: 0;
     font-family: Arial, sans-serif;
 }
