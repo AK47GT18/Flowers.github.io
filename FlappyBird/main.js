@@ -20,6 +20,12 @@ let pipeX;
 let pipeY;
 let toppipeImg;
 let bottompipeImg;
+let wingSound = new Audio("Sounds/sfx_wing.wav");
+let winghit = new Audio("Sounds/sfx_hit.wav");
+/*let gameSound = new Audio ("Sounds/bgm_mario.mp3");*/
+let gameSound = new Audio ("Sounds/mymusic.mp3");
+gameSound.loop = true;
+let flappydeath = new Audio("Sounds/sfx_die.wav");
 
 // Initialize game based on screen size
 function initializeGameDimensions() {
@@ -72,6 +78,7 @@ function handleResize() {
 }
 
 window.onload = function() {
+   
     // Initialize game dimensions
     initializeGameDimensions();
 
@@ -109,6 +116,13 @@ window.onload = function() {
     // Improve touch controls
     document.addEventListener("touchstart", function(e) {
         e.preventDefault(); // Prevent double-firing on some devices
+        wingSound.play();
+        if(gameSound.paused)
+         {
+            gameSound.play();
+           
+
+         }       
         velocityY = -6 * (boardHeight / 600); // Scale jump height to screen size
         if (GameOver) {
             resetGame();
@@ -156,6 +170,7 @@ function update() {
         }
 
         if (collide(bird, pipe)) {
+            winghit.play();
             GameOver = true;
         }
     }
@@ -171,7 +186,10 @@ function update() {
     context.fillText(score, 5, boardHeight * 0.1);
 
     if (GameOver) {
+        context.fillStyle = "red";
         context.fillText("GAME OVER", boardWidth * 0.2, boardHeight * 0.2);
+        gameSound.pause();
+        gameSound.currentTime = 0;
     }
 }
 
@@ -206,6 +224,13 @@ function placePipes() {
 
 function moveBird(e) {
     if (e.code === "Space" || e.code === "ArrowUp" || e.code === "KeyX") {
+        wingSound.play();
+        if(gameSound.paused)
+         {
+            gameSound.play();
+           
+
+         }        
         velocityY = -6 * (boardHeight / 600); // Scale jump height to screen size
         if (GameOver) {
             resetGame();
