@@ -4,30 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <title>Love Poems for you</title>
+    <title>Love Poems for You</title>
 </head>
 <body>
     <h1>Love Poem Generator</h1>
 
     <form id="poemForm">
-      <input type="text" id="userName" placeholder="Your Name" required>
-      <br>
-  
-      <input type="text" id="partnerName" placeholder="Partner's Name" required>
-      <br>
-  
-      <input type="text" id="theme" placeholder="Theme of the Poem" required>
-      <br>
-  
-      <button type="submit">Generate Poem</button>
+        <input type="text" id="userName" placeholder="Your Name" required>
+        <br>
+        <input type="text" id="partnerName" placeholder="Partner's Name" required>
+        <br>
+        <input type="text" id="theme" placeholder="Theme of the Poem" required>
+        <br>
+        <button type="submit">Generate Poem</button>
     </form>
-  
-    <h2>Your Poem:</h2>
+
+    <div id="loadingIndicator" style="display:none;">🔄 Generating poem...</div>
+    <p id="errorMessage" style="color: red;"></p>
+
+    <h2>Your Poem</h2>
     <div id="poemResult">
-      <p id="poemText"></p>
+        <p id="poemText"></p>
     </div>
-  
-    <div class="heart">💖</div>
+
+    <div class="heart"> Happy Valentines guys💖</div>
+
     <script src="main.js"></script>
 </body>
 </html>

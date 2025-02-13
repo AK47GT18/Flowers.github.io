@@ -142,6 +142,15 @@
       }
     }
 
+    .typing {
+        border-right: 2px solid #e91e63;
+        animation: blink 0.75s step-end infinite;
+        display: inline-block;
+        overflow-wrap: break-word;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+    
     @media (max-width: 480px) {
       h1 {
         font-size: 26px;

@@ -1,72 +1,99 @@
+// Constants
+const API_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+const API_KEY = "AIzaSyAsmV6SVySiWKt3cIm8xZl3hrVwprlxhG0"; // Replace with your API key
+
 const generatePoem = async (userName, partnerName, theme) => {
-    const apiKey = '13fb7ec2b331f0d261710bba64164a1ada0f30fbf512927b63071987'; // Replace with your Together AI API key
-  
-    const prompt = `Write a romantic poem about ${userName} and ${partnerName}, with a theme of ${theme} center it of off valentines and also a meaningful relation between them also use some world play on their names.`;
-  
-    try {
-      // Send POST request to Together AI API
-      const response = await fetch("https://api.together.xyz/v1/chat/completions", {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: "deepseek-ai/DeepSeek-R1", // Using the appropriate model
-          messages: [{ role: "system", content: "You are a helpful assistant." }, { role: "user", content: prompt }],
-          max_tokens: 150, // Limit the length of the poem
-          temperature: 0.7, // Controls creativity
-          top_p: 0.95,
-          top_k: 50,
-          repetition_penalty: 1,
-          stop: ["<｜end▁of▁sentence｜>"],
-          stream: true, // Stream response for real-time typing effect
-        }),
-      });
-  
-      const data = await response.json();
-  
-      if (response.ok) {
-        const poem = data.choices[0].text.trim();
-        return poem;
-      } else {
-        throw new Error('Error generating poem');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      return 'Sorry, something went wrong while generating the poem.';
+    if (!userName || !partnerName || !theme) {
+        throw new Error("All fields are required");
     }
-  };
-  
-  // Function to animate the poem text
-  const typePoem = (poem) => {
-    const poemTextElement = document.getElementById('poemText');
-    poemTextElement.textContent = '';  // Clear previous poem
-    poemTextElement.classList.remove('typing'); // Reset animation
-  
-    poemTextElement.classList.add('typing'); // Start typing animation
-  
-    let i = 0;
-    const interval = setInterval(() => {
-      poemTextElement.textContent += poem.charAt(i);
-      i++;
-      if (i > poem.length - 1) clearInterval(interval); // Stop typing when the poem is fully written
-    }, 50); // Speed of typing effect
-  };
-  
-  // Handling the form submission
-  document.getElementById('poemForm').addEventListener('submit', async (e) => {
-    e.preventDefault();  // Prevent page reload
-  
-    // Get form input values
-    const userName = document.getElementById('userName').value;
-    const partnerName = document.getElementById('partnerName').value;
-    const theme = document.getElementById('theme').value;
-  
-    // Call the function to generate the poem
-    const poem = await generatePoem(userName, partnerName, theme);
-  
-    // Call function to animate the typing effect
-    typePoem(poem);
-  });
-  
+
+    const prompt = `Write a romantic poem about ${userName} and ${partnerName}, with a theme of ${theme}. 
+    Center it around Valentine's Day and meaningful relationships. Use creative wordplay on their names make it short but impactful don't forget the names .`;
+
+    try {
+        const response = await fetch(`${API_ENDPOINT}?key=${API_KEY}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }]
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`API request failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+            throw new Error("Invalid API response format");
+        }
+
+        return data.candidates[0].content.parts[0].text;
+    } catch (error) {
+        console.error("Error generating poem:", error);
+        throw error;
+    }
+};
+
+const typePoem = (poem, element, speed = 50) => {
+    if (!element) return;
+
+    element.textContent = ""; 
+    element.classList.add("typing");
+
+    return new Promise((resolve) => {
+        let words = poem.split(" "); // Split by words instead of characters
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < words.length) {
+                element.textContent += (i === 0 ? "" : " ") + words[i]; // Append words dynamically
+                i++;
+            } else {
+                clearInterval(interval);
+                element.classList.remove("typing");
+                resolve();
+            }
+        }, speed);
+    });
+};
+
+
+const setLoading = (isLoading) => {
+    const submitButton = document.querySelector('#poemForm button[type="submit"]');
+    const loadingIndicator = document.getElementById("loadingIndicator");
+
+    if (submitButton) {
+        submitButton.disabled = isLoading;
+        submitButton.textContent = isLoading ? "Generating..." : "Generate Poem";
+    }
+
+    if (loadingIndicator) {
+        loadingIndicator.style.display = isLoading ? "block" : "none";
+    }
+};
+
+// Form submission handler
+document.getElementById("poemForm")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const poemTextElement = document.getElementById("poemText");
+    const errorElement = document.getElementById("errorMessage");
+
+    try {
+        setLoading(true);
+        errorElement.textContent = "";
+
+        const userName = document.getElementById("userName").value.trim();
+        const partnerName = document.getElementById("partnerName").value.trim();
+        const theme = document.getElementById("theme").value.trim();
+
+        const poem = await generatePoem(userName, partnerName, theme);
+        await typePoem(poem, poemTextElement);
+    } catch (error) {
+        errorElement.textContent = "Failed to generate poem. Please try again.";
+        poemTextElement.textContent = "";
+    } finally {
+        setLoading(false);
+    }
+});
