@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry chrsitmas Yall</title>
+    <style>
+        :root {
+            --tree-scale: 1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle, #1a2f4c, #0a0f1d);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        .firework {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: transparent;
+            pointer-events: none;
+            transform: scale(0);
+            opacity: 0;
+        }
+        
+        .firework > div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-origin: center;
+        }
+        
+        .firework > div > div {
+            position: absolute;
+            width: 15px;
+            height: 10px;
+            border-radius: 50%;
+            top: calc(50% - 2px);
+            left: calc(50% - 2px);
+        }
+        
+        @keyframes firework-explosion {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(10);
+                opacity: 0;
+            }
+        }
+        
+        .message {
+            position: absolute;
+            top: 5vh;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: min(4vw, 2em);
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 0.2em solid gold;
+            animation: typing 3.5s steps(23) forwards, blink 0.75s step-end infinite;
+            width: 25%;
+        }
+
+        .tree-container {
+            position: relative;
+            text-align: center;
+            margin-top: min(10vh, 80px);
+            transform: scale(var(--tree-scale));
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 1rem;
+        }
+
+        .main-triangle {
+            background: linear-gradient(135deg, #165b33, #146B3A);
+            width: 0;
+            height: 0;
+            border-left: min(15vw, 100px) solid transparent;
+            border-right: min(15vw, 100px) solid transparent;
+            border-bottom: min(22.5vw, 150px) solid #165b33;
+            position: relative;
+            margin: 0 auto;
+            opacity: 0;
+            animation: growLayer 1s ease forwards;
+        }
+
+        .star {
+            position: absolute;
+            top: min(-4.5vw, -30px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(4.5vw, 30px);
+            height: min(4.5vw, 30px);
+            background: gold;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: starTwinkle 1.5s ease-in-out infinite alternate;
+            z-index: 2;
+        }
+
+        .layer {
+            background: linear-gradient(135deg, #165b33, #146B3A);
+            width: min(90vw, 770px);
+            height: min(12vw, 100px);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            margin: min(-3vw, -20px) auto min(3vw, 20px);
+            position: relative;
+            opacity: 0;
+            animation: growLayer 1s ease forwards;
+        }
+
+        .layer:nth-child(2) {
+            width: min(40vw, 280px);
+            height: min(10vw, 80px);
+        }
+
+        .layer:nth-child(3) {
+            width: min(60vw, 470px);
+            height: min(12vw, 100px);
+        }
+
+        .layer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+            animation: shimmer 3s infinite linear;
+        }
+
+        .trunk {
+            background: linear-gradient(90deg, #85432E, #A0522D, #85432E);
+            width: min(8vw, 60px);
+            height: min(10vw, 80px);
+            margin: 0 auto;
+            opacity: 0;
+            border-radius: 5px;
+            animation: growTrunk 1s ease 2s forwards;
+        }
+
+        .snow {
+            position: fixed;
+            width: min(1.5vw, 10px);
+            height: min(1.5vw, 10px);
+            background: white;
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: snowfall linear infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 37ch }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: gold }
+        }
+
+        @keyframes starTwinkle {
+            0% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+            100% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+        }
+
+        @keyframes growLayer {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes growTrunk {
+            0% { transform: scaleY(0); opacity: 0; }
+            100% { transform: scaleY(1); opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes snowfall {
+            0% { transform: translateY(-100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh) translateX(20px); opacity: 0; }
+        }
+
+        .layer:nth-child(1) { animation-delay: 2s; }
+        .layer:nth-child(2) { animation-delay: 1s; }
+        .layer:nth-child(3) { animation-delay: 1.5s; }
+
+        .ornament {
+            position: absolute;
+            width: min(1.5vw, 10px);
+            height: min(1.5vw, 10px);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, currentColor, #000);
+            z-index: 1;
+        }
+
+        /* Responsive breakpoints */
+        @media (max-width: 768px) {
+            :root {
+                --tree-scale: 0.9;
+            }
+            .message {
+                font-size: 4vw;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --tree-scale: 0.8;
+            }
+            .message {
+                font-size: 4vw;
+            }
+            .tree-container {
+                margin-top: 15vh;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            :root {
+                --tree-scale: 1.2;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .tree-container {
+                margin-top: 12vh;
+            }
+            :root {
+                --tree-scale: 0.7;
+            }
+        }
+
+        /* Handle ultrawide screens */
+        @media (min-aspect-ratio: 21/9) {
+            .tree-container {
+                max-width: 80vh;
+            }
+        }
+
+        /* Handle portrait orientation */
+        @media (orientation: portrait) {
+            .tree-container {
+                margin-top: 20vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="message">Merry Christmas To You! From Arthony 🤓</div>
+    
+    <div class="tree-container">
+        <div class="main-triangle">
+            <div class="star"></div>
+        </div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="trunk"></div>
+    </div>
+
+    <script>
+        function createSnow() {
+            for (let i = 0; i < 50; i++) {
+                const snow = document.createElement('div');
+                snow.className = 'snow';
+                snow.style.left = Math.random() * 100 + 'vw';
+                snow.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snow.style.opacity = Math.random();
+                snow.style.width = snow.style.height = (Math.random() * 5 + 5) + 'px';
+                document.body.appendChild(snow);
+            }
+        }
+
+        function createOrnaments() {
+            const colors = ['#ff0000', '#ffd700', '#ff69b4', '#4169e1', '#9400d3'];
+            const layers = document.querySelectorAll('.layer');
+            const triangle = document.querySelector('.main-triangle');
+            
+            layers.forEach(layer => {
+                for (let i = 0; i < 8; i++) {
+                    const ornament = document.createElement('div');
+                    ornament.className = 'ornament';
+                    ornament.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    ornament.style.left = (Math.random() * 80 + 10) + '%';
+                    ornament.style.top = (Math.random() * 80) + '%';
+                    layer.appendChild(ornament);
+                }
+            });
+
+            for (let i = 0; i < 20; i++) {
+                const ornament = document.createElement('div');
+                ornament.className = 'ornament';
+                ornament.style.color = colors[Math.floor(Math.random() * colors.length)];
+                const angle = Math.random() * Math.PI;
+                const radius = Math.random() * 80;
+                ornament.style.left = (50 + Math.cos(angle) * radius) + '%';
+                ornament.style.top = (Math.random() * 80) + '%';
+                triangle.appendChild(ornament);
+            }
+        }
+
+        function stopTypingEffect() {
+            const message = document.querySelector('.message');
+            setTimeout(() => {
+                message.classList.add('finished');
+            }, 4000); 
+        }
+        function createFirework(x, y) {
+            const colors = ['#ff0000', '#ffd700', '#ff69b4', '#4169e1', '#9400d3', '#00ff00'];
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = x + 'px';
+            firework.style.top = y + 'px';
+
+            // Create sparks
+            for (let i = 0; i < 8; i++) {
+                const line = document.createElement('div');
+                line.style.transform = `rotate(${i * 45}deg)`;
+
+                for (let j = 0; j < 3; j++) {
+                    const spark = document.createElement('div');
+                    spark.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    spark.style.transform = `scale(${0.3 + 0.7 * j})`;
+                    spark.style.opacity = 1 - 0.3 * j;
+                    line.appendChild(spark);
+                }
+
+                firework.appendChild(line);
+            }
+
+            document.body.appendChild(firework);
+
+            // Trigger the animation
+            firework.style.opacity = 1;
+            firework.style.transform = 'scale(1)';
+            firework.style.animation = 'firework-explosion 1.5s ease-out';
+
+            // Remove the firework after animation
+            setTimeout(() => firework.remove(), 1500);
+        }
+
+        document.addEventListener('click', (e) => {
+            createFirework(e.pageX, e.pageY);
+        });
+
+        
+
+        createSnow();
+        createOrnaments();
+        stopTypingEffect();
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+
+    body {
+      background-color: #ffebf0;
+      font-family: 'Arial', sans-serif;
+      color: #333;
+      padding: 20px;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      color: #e91e63;
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #e91e63;
+      font-size: 28px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    /* Poem Display Animation */
+    #poemResult {
+      background-color: #fff;
+      border: 2px solid #e91e63;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 18px;
+      color: #333;
+      margin-top: 20px;
+      text-align: center;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      width: 80%;
+      margin: 0 auto;
+      height: auto;
+      min-height: 150px;
+      position: relative;
+    }
+
+    /* Add typing effect */
+    .typing {
+      overflow: hidden; 
+      white-space: nowrap;
+      border-right: 2px solid #e91e63;
+      animation: typing 3s steps(30) 1s forwards, blink 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        border-color: transparent;
+      }
+    }
+
+    form {
+      background-color: #fff;
+      border: 2px solid #e91e63;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    input[type="text"] {
+      width: 85%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-left: 5%;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button {
+      background-color: #e91e63;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #c2185b;
+    }
+
+    .heart {
+      font-size: 50px;
+      color: #e91e63;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 30px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      #poemResult {
+        width: 90%;
+        padding: 15px;
+        font-size: 16px;
+      }
+
+      form {
+        width: 90%;
+        padding: 15px;
+      }
+
+      input[type="text"] {
+        font-size: 14px;
+      }
+
+      button {
+        font-size: 16px;
+      }
+
+      .heart {
+        font-size: 40px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 26px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      #poemResult {
+        width: 95%;
+        font-size: 14px;
+      }
+
+      form {
+        width: 95%;
+        padding: 10px;
+      }
+
+      input[type="text"] {
+        font-size: 12px;
+      }
+
+      button {
+        font-size: 14px;
+      }
+
+      .heart {
+        font-size: 35px;
+      }
+    }
