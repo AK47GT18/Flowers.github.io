@@ -5,7 +5,7 @@ const generatePoem = async (userName, partnerName, theme) => {
   
     try {
       // Send POST request to Together AI API
-      const response = await fetch('https://api.together.xyz/v1/chat/completions', {
+      const response = await fetch("https://api.together.xyz/v1/chat/completions", {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
