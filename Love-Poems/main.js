@@ -7,7 +7,7 @@ const generatePoem = async (userName, partnerName, theme) => {
         throw new Error("All fields are required");
     }
 
-    const prompt = `Write a romantic poem about ${userName} and ${partnerName}, with a theme of ${theme}. 
+    const prompt = `Write a romantic poem about ${partnerName} and ${userName}, with a theme of ${theme}. 
     Center it around Valentine's Day and meaningful relationships. Use creative wordplay on their names make it short but impactful don't forget the names .`;
 
     try {
