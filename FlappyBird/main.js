@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 let board;
 let boardWidth;
 let boardHeight;
@@ -490,5 +490,5 @@ function collide(a, b) {
            a.x + a.width > b.x &&
            a.y < b.y + b.height &&
            a.y + a.height > b.y;
->>>>>>> cd6f3fd1a0b0ac1dc821648ae019a98922db8d30
+
 }
